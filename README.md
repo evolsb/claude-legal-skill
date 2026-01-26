@@ -171,6 +171,8 @@ Review this acquisition agreement - I'm the seller
 Check this merchant agreement - what's my chargeback exposure?
 ```
 
+See [examples/](examples/) for full sample outputs.
+
 ---
 
 ## Limitations
