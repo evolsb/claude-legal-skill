@@ -3,109 +3,124 @@
 ## Prompt
 
 ```
-Review this SaaS agreement. I'm the customer. Focus on:
-1. Data ownership and portability
-2. Uptime/SLA commitments and remedies
-3. Limitation of liability (especially caps)
-4. Auto-renewal and termination rights
-5. Price increase provisions
-6. Security and compliance obligations
+Review this SaaS agreement. I'm the customer.
 ```
 
-## Key SaaS Contract Provisions to Check
+## Example Output
 
-### Data Rights
-- **Ownership**: Customer should own all customer data
-- **Portability**: Right to export data in standard format
-- **Deletion**: Vendor must delete data on termination
-- **Subprocessors**: Notice of third-party data access
+```markdown
+# Contract Review: CloudCo Platform Subscription
 
-### Service Levels
-- **Uptime commitment**: 99.9% is standard, 99.99% is premium
-- **Measurement**: How is uptime calculated? Excludes maintenance windows?
-- **Remedies**: Service credits are standard; termination rights for chronic failures
-- **Credit caps**: Many limit credits to 1 month's fees
+**Document Type:** SaaS Subscription Agreement
+**Your Position:** Customer
+**Counterparty:** CloudCo Inc.
+**Risk Level:** 🔴 High
 
-### Liability
-- **Cap**: Typically 12 months' fees; watch for lower caps
-- **Carve-outs**: Data breach, IP infringement, gross negligence usually uncapped
-- **Consequential damages**: Usually waived but verify mutual
+## Executive Summary
 
-### Term & Renewal
-- **Auto-renewal**: Standard but check notice period (30 days is tight)
-- **Price increases**: Should be capped (CPI or 5% max)
-- **Termination for convenience**: Customer should have this right
-- **Effect of termination**: Data export period, transition assistance
+One-sided vendor agreement with significant customer risk. The 3-month liability cap,
+missing uptime SLA, and uncapped price increases need immediate attention.
 
-## Expected Output
+---
 
-```xml
-<contract_review>
-  <summary>
-    <document_type>SaaS Subscription Agreement</document_type>
-    <parties>
-      <vendor>Acme Software Inc.</vendor>
-      <customer>Your Company</customer>
-    </parties>
-    <effective_date>Upon signature</effective_date>
-    <risk_level>High</risk_level>
-    <executive_summary>One-sided vendor agreement with 3-month fee liability cap, no uptime SLA, and broad vendor termination rights. Significant negotiation needed.</executive_summary>
-  </summary>
+## Key Terms
 
-  <key_terms>
-    <term name="Initial Term">
-      <value>36 months</value>
-      <location>Section 8.1</location>
-    </term>
-    <term name="Annual Fee">
-      <value>$120,000/year</value>
-      <location>Exhibit A</location>
-    </term>
-    <term name="Liability Cap">
-      <value>3 months' fees ($30,000)</value>
-      <location>Section 9.2</location>
-    </term>
-  </key_terms>
+| Term | Value | Location |
+|------|-------|----------|
+| Initial Term | 36 months | Section 8.1 |
+| Annual Fee | $120,000/year | Exhibit A |
+| Liability Cap | 3 months' fees ($30,000) | Section 9.2 |
+| Auto-Renewal | 30-day notice to cancel | Section 8.2 |
+| Uptime SLA | None specified | — |
 
-  <risk_analysis>
-    <risk category="Limitation of Liability" severity="High">
-      <clause>"In no event shall Vendor's liability exceed the fees paid in the three (3) months preceding the claim"</clause>
-      <issue>3-month cap is unusually low; standard is 12 months. For a $120K annual contract, liability capped at $30K.</issue>
-      <recommendation>Negotiate to 12 months' fees ($120K) at minimum. Consider higher cap or unlimited for data breach/security incidents.</recommendation>
-    </risk>
+---
 
-    <risk category="Service Level Agreement" severity="High">
-      <clause>No SLA provisions found</clause>
-      <issue>No uptime commitment or service credits for outages</issue>
-      <recommendation>Add SLA exhibit with 99.9% uptime, defined measurement period, and service credits (10% for <99.9%, 25% for <99%, termination right for <95% two consecutive months)</recommendation>
-    </risk>
+## Risk Analysis
 
-    <risk category="Price Restrictions" severity="Medium">
-      <clause>"Vendor may adjust pricing upon any renewal with 30 days notice"</clause>
-      <issue>No cap on price increases; 30 days is insufficient notice</issue>
-      <recommendation>Cap increases at CPI+3% or 5% max. Require 90 days notice.</recommendation>
-    </risk>
-  </risk_analysis>
+### 🔴 Critical
 
-  <missing_provisions>
-    <provision name="Data Export Rights">
-      <importance>Without this, you may lose access to your data on termination</importance>
-      <suggested_language>"Upon termination, Vendor shall make Customer Data available for export in a standard machine-readable format for 90 days at no additional charge."</suggested_language>
-    </provision>
-    <provision name="Security Standards">
-      <importance>No defined security obligations or compliance certifications</importance>
-      <suggested_language>"Vendor shall maintain SOC 2 Type II certification and notify Customer of any security incidents within 24 hours of discovery."</suggested_language>
-    </provision>
-  </missing_provisions>
-</contract_review>
+**Limitation of Liability** (Section 9.2)
+> "In no event shall Vendor's liability exceed the fees paid in the three (3) months preceding the claim"
+
+- **Issue:** 3-month cap is unusually low; market standard is 12 months
+- **Risk:** For $120K/year contract, liability capped at $30K
+- **Redline:** Change "three (3) months" → "twelve (12) months"
+- **Fallback:** Accept 6 months minimum
+
+---
+
+### 🔴 Critical
+
+**No Service Level Agreement**
+
+- **Issue:** No uptime commitment or service credits for outages
+- **Risk:** Vendor has no contractual obligation to maintain service
+- **Add:** SLA exhibit with 99.9% uptime and credit structure:
+
+> **Suggested SLA language:**
+> "Vendor commits to 99.9% monthly uptime. For each full percentage point below 99.9%, Customer receives credit of 10% of monthly fees, up to 25%. Uptime below 95% in any month is material breach."
+
+---
+
+### 🟡 Important
+
+**Auto-Renewal Notice** (Section 8.2)
+> "Agreement auto-renews unless either party provides notice 30 days prior"
+
+- **Issue:** 30 days is very tight for a 36-month, $120K contract
+- **Redline:** Change "30 days" → "90 days"
+
+---
+
+### 🟡 Important
+
+**Price Increases** (Section 4.3)
+> "Vendor may adjust pricing upon any renewal with 30 days notice"
+
+- **Issue:** No cap on increases; could double pricing at renewal
+- **Redline:** Add "not to exceed 5% annually" or "CPI + 3%"
+
+---
+
+## Reviewed & Acceptable
+
+| Category | Status | Notes |
+|----------|--------|-------|
+| Data Ownership | ✓ | Customer owns customer data |
+| Governing Law | ✓ | Delaware — standard |
+| IP in Configs | ✓ | Customer retains |
+
+---
+
+## Missing Provisions
+
+| Provision | Priority | Why It Matters |
+|-----------|----------|----------------|
+| Data Export | Critical | No way to get data out on termination |
+| Security Standards | Critical | No SOC 2 or security commitments |
+| Subprocessor Notice | Important | No visibility into third-party data access |
+| Transition Assistance | Important | No help migrating away |
+
+**Suggested Data Export language:**
+> "Upon termination, Vendor shall make Customer Data available for export in JSON or CSV format for 90 days at no charge."
+
+---
+
+## Internal Consistency
+
+- ⚠️ "Services" defined in Section 1.2 but Exhibit A references "Platform Services"
+
+---
+
+*This review is for informational purposes only.*
 ```
 
-## Vendor-Favorable Terms to Watch For
+## Vendor-Favorable Terms to Watch
 
-1. **Liability cap tied to recent fees** - On annual contracts, "3 months' fees" is very low
-2. **Broad indemnification from customer** - Should be mutual
-3. **Vendor can terminate for convenience** - Customer should have this, not vendor
-4. **No uptime commitments** - Even if not SLA, should have some commitment
-5. **Unlimited price increases** - Always cap renewals
-6. **Assignment to acquirer** - Watch for "including by merger" language
-7. **Audit rights without limits** - Should have notice and frequency limits
+1. **Liability cap tied to recent fees** — 3 months on annual contracts is very low
+2. **No uptime SLA** — Even 99.9% with credits is better than nothing
+3. **Short renewal notice** — 30 days is tight for large contracts
+4. **Uncapped price increases** — Always negotiate a cap
+5. **Broad vendor termination** — Customer should have this, not just vendor
+6. **One-sided indemnification** — Should be mutual
+7. **No data export rights** — Critical for avoiding vendor lock-in
