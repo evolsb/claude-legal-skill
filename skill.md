@@ -1,7 +1,7 @@
 ---
 name: contract-review
 description: Review contracts for risks, extract key terms, and suggest redlines
-version: 2.1.0
+version: 3.0.0
 ---
 
 # Contract Review Skill
@@ -14,21 +14,42 @@ Review legal contracts for risks, extract key terms, and suggest redlines. Built
 - User uploads or references a PDF/DOCX legal document
 - User asks about specific clauses, risks, or terms
 
-## First Step: Identify User's Position
+---
 
-Before reviewing, determine the user's role:
+## Step 1: Pre-Review Checklist
 
-**Ask if unclear:** "Which party are you? (customer, vendor, buyer, seller, licensor, licensee)"
+Before analyzing content, verify document completeness:
+
+- [ ] **Blank fields**: Flag any "$X", "TBD", "[amount]", "____" placeholders
+- [ ] **Missing exhibits**: List all referenced schedules/exhibits and note which are missing
+- [ ] **Signature status**: Draft or already executed?
+- [ ] **All pages present**: Check for truncation or missing sections
+
+If blank fields or missing exhibits exist, flag prominently in output header.
+
+---
+
+## Step 2: Identify Document Type & User Position
+
+**Ask if unclear:** "Which party are you? (customer, vendor, buyer, seller, licensor, licensee, receiving party, disclosing party)"
 
 This affects what's "risky":
 - Customer reviewing vendor agreement → flag vendor-favorable terms
 - Vendor reviewing own template → flag customer-favorable terms
 - Buyer in M&A → flag seller-favorable terms
 - Seller in M&A → flag buyer-favorable terms
+- Receiving party in NDA → flag disclosing party-favorable terms
+
+**Assess power dynamic:**
+- Startup vs. large enterprise? (limited negotiating leverage)
+- Standard form vs. negotiated? (some terms non-negotiable)
+- Regulated industry? (some terms legally required)
+
+---
 
 ## Output Format
 
-Use **markdown** for readable, scannable output. Structure as follows:
+Use **markdown** for readable, scannable output. Do NOT use XML tags.
 
 ---
 
@@ -41,6 +62,12 @@ Use **markdown** for readable, scannable output. Structure as follows:
 **Your Position:** Customer
 **Counterparty:** Acme Software Inc.
 **Risk Level:** 🟡 Medium
+**Document Status:** Draft / Executed on [date]
+
+## ⚠️ Pre-Signing Alerts
+
+- **Blank field:** Fee amount in Section 4.1 is "$____"
+- **Missing exhibit:** Exhibit B (SLA) referenced but not attached
 
 ## Executive Summary
 
@@ -60,6 +87,19 @@ asymmetric termination rights need attention. Data ownership is clear.
 
 ---
 
+## Red Flags (Quick Scan)
+
+| Flag | Found | Location |
+|------|-------|----------|
+| Liability cap < 6 months | ⚠️ Yes | Section 10.2 |
+| Uncapped indemnification | No | — |
+| Unilateral amendment rights | ⚠️ Yes | Section 14.1 |
+| No termination for convenience | No | — |
+| Perpetual obligations | No | — |
+| Offshore jurisdiction | No | — |
+
+---
+
 ## Risk Analysis
 
 ### 🔴 Critical
@@ -69,7 +109,8 @@ asymmetric termination rights need attention. Data ownership is clear.
 
 - **Issue:** 3-month cap is below market standard (typically 12 months)
 - **Risk:** For $120K annual contract, liability capped at $30K
-- **Recommendation:** Request 12-month cap
+- **Market Standard:** 12 months' fees
+- **Negotiability:** Medium — most vendors accept 6-12 months
 - **Redline:** Change "three (3) months" → "twelve (12) months"
 - **Fallback:** Accept 6 months as compromise
 
@@ -81,7 +122,8 @@ asymmetric termination rights need attention. Data ownership is clear.
 > "Vendor may terminate for any reason upon 30 days notice"
 
 - **Issue:** One-sided; customer lacks equivalent right
-- **Recommendation:** Add mutual termination or extend notice to 90 days
+- **Market Standard:** Mutual termination rights
+- **Negotiability:** High — reasonable ask
 - **Redline:** Add "Either party may terminate..." or change to "90 days"
 
 ---
@@ -93,7 +135,7 @@ asymmetric termination rights need attention. Data ownership is clear.
 | Data Ownership | ✓ | Customer owns all customer data |
 | IP Rights | ✓ | Clear separation, no broad assignment |
 | Confidentiality | ✓ | Mutual, 3-year term, standard exceptions |
-| Governing Law | ✓ | Delaware - neutral for commercial |
+| Governing Law | ✓ | Delaware — neutral for commercial |
 
 ---
 
@@ -117,14 +159,126 @@ asymmetric termination rights need attention. Data ownership is clear.
 
 ---
 
+## Negotiation Priority
+
+| # | Issue | Ask | Negotiability |
+|---|-------|-----|---------------|
+| 1 | Liability cap | 12 months | Medium |
+| 2 | Termination rights | Mutual | High |
+| 3 | Data export | Add provision | High |
+| 4 | Price cap | 5% annual max | Medium |
+
+---
+
 *This review is for informational purposes only. Material terms should be reviewed by qualified legal counsel.*
 ```
 
 ---
 
-## Risk Categories (CUAD 41)
+## Red Flags Quick Scan
 
-Check for these clause types, flagging terms unfavorable to user's position:
+Check these danger signs FIRST before deep analysis:
+
+| Red Flag | Why It Matters |
+|----------|----------------|
+| Liability cap < 6 months | Inadequate protection |
+| Uncapped indemnification | Unlimited exposure |
+| "As-is" with no warranty | No recourse for defects |
+| Unilateral suspension without notice | Service can vanish |
+| Unilateral amendment rights | Terms can change |
+| No termination for convenience | Locked in |
+| Perpetual obligations (tails, non-competes) | Indefinite exposure |
+| Offshore jurisdiction (BVI, Cayman) | Expensive to enforce |
+| Pre-signed conflict waivers | No recourse for conflicts |
+| "Sole discretion" language favoring counterparty | No objective standard |
+| Class action waiver + mandatory arbitration | Limited remedies |
+| Asymmetric assignment rights | They can assign, you can't |
+
+---
+
+## Document Type Checklists
+
+### NDA Checklist
+
+| Category | Check For |
+|----------|-----------|
+| Direction | One-way or mutual? |
+| Definition scope | "All information" too broad? Standard exceptions? |
+| Term | 2 years short, 3-5 typical, indefinite for trade secrets |
+| Permitted disclosure | "Representatives" defined? Flow-down required? |
+| Residuals clause | Can use general knowledge retained in memory? |
+| Non-solicitation | Employees protected? |
+| Standstill | Prevents hostile acquisition actions? |
+| No-contact | Customers, suppliers, employees protected? |
+| Return/destruction | Certification required? |
+| Public announcement | Prohibits disclosure of discussions? |
+| Compelled disclosure | Notice required? Time to seek protective order? |
+| Injunctive relief | Pre-agreed specific performance? Bond waiver? |
+
+### SaaS/MSA Checklist
+
+| Category | Check For |
+|----------|-----------|
+| Liability cap | 12+ months = standard |
+| Uptime SLA | 99.9% with credits = standard |
+| Suspension rights | Unilateral? Notice required? |
+| Data ownership | Customer owns customer data? |
+| Data export | Format, duration, cost on termination? |
+| Price increases | Capped? Notice period? |
+| Auto-renewal notice | 90+ days = good, <60 = risk |
+| Termination | Mutual for convenience? Cure period for cause? |
+| Subprocessors | Notice of changes? Approval rights? |
+| Insurance | Vendor carries E&O, cyber? |
+
+### Payment/Merchant Agreement Checklist
+
+| Category | Check For |
+|----------|-----------|
+| Reserve/holdback | Amount, duration, release conditions? |
+| Chargeback liability | Capped? Fraud protection? |
+| Network rules | Incorporated by reference? Access provided? |
+| Auto-debit authority | Notice before debits? |
+| Settlement timing | When do you receive funds? |
+| Volume commitments | Realistic? Penalty for shortfall? |
+| Suspension rights | Immediate or notice? |
+| Termination tail | How long do obligations survive? |
+| Audit rights | Frequency, notice, cost allocation? |
+| PCI compliance | Who bears cost? |
+
+### M&A Agreement Checklist
+
+| Category | Check For |
+|----------|-----------|
+| Purchase price | Cash vs. stock vs. earnout mix? |
+| Earnout mechanics | Measurement, discretion, audit rights, acceleration? |
+| Escrow/holdback | Amount (10-15% typical), duration (12-18 mo), release? |
+| Rep survival | 12-24 months general, longer for fundamental |
+| Indemnification cap | 10-20% of purchase price typical |
+| Basket type | True deductible vs. tipping? |
+| Sandbagging | Pro-buyer or anti-sandbagging? |
+| Non-compete | 2-3 years, geographic scope? |
+| Working capital | Target, collar, true-up mechanism? |
+| MAC definition | Carve-outs for market conditions? |
+| Employment comp | Counted in purchase price or separate? |
+
+### Finder/Broker Agreement Checklist
+
+| Category | Check For |
+|----------|-----------|
+| Fee percentage | Specified or blank? |
+| Fee calculation | What's included in deal value? Employment comp? |
+| "Covered buyer" definition | How broad? Any prior relationship carve-out? |
+| Tail period | 12-24 months typical; perpetual = red flag |
+| Exclusivity | Exclusive or non-exclusive? |
+| Minimum fee | Floor amount? |
+| Joint representation | Consent required? Conflict waiver? |
+| Escrow deduction | Auto-pay from proceeds? |
+| Term/termination | Can you exit? |
+| Broker status | BD registered if securities involved? |
+
+---
+
+## Risk Categories (CUAD 41 + Extensions)
 
 ### Document Basics
 - Document Name and Type
@@ -132,6 +286,8 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Agreement Date / Effective Date
 - Expiration Date
 - Renewal Terms
+- **Document Status** (draft/executed)
+- **Blank Fields / Placeholders**
 
 ### Term & Termination
 - Contract Term / Duration
@@ -139,11 +295,14 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Termination for Cause
 - Post-Termination Services
 - Survival Clauses
+- **Suspension Rights** (immediate vs. with notice)
+- **Cure Periods**
 
 ### Assignment & Control
 - Anti-Assignment Clause
 - Change of Control
 - Consent Requirements
+- **Asymmetric Assignment** (they can, you can't)
 
 ### Financial Terms
 - Payment Terms
@@ -152,6 +311,9 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Minimum Commitment
 - Volume Restrictions
 - Audit Rights
+- **Price Escalation Caps**
+- **Reserve/Holdback Requirements**
+- **Auto-Debit Authority**
 
 ### Liability & Risk
 - Limitation of Liability
@@ -160,6 +322,9 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Indemnification
 - Insurance Requirements
 - Warranty Duration
+- **Warranty Disclaimer (As-Is)**
+- **Exclusive Remedy Clauses**
+- **Chargeback/Return Liability**
 
 ### IP & Confidentiality
 - IP Ownership Assignment
@@ -173,12 +338,16 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Non-Disparagement
 - Confidentiality Duration
 - Third Party Beneficiary
+- **Residuals Clause**
+- **Feedback Ownership**
 
 ### Dispute Resolution
 - Governing Law
 - Jurisdiction / Venue
 - Arbitration vs Litigation
 - Jury Trial Waiver
+- **Class Action Waiver**
+- **Offshore Jurisdiction Flags**
 
 ### Special Provisions
 - ROFR / ROFO / ROFN
@@ -186,81 +355,70 @@ Check for these clause types, flagging terms unfavorable to user's position:
 - Joint IP Ownership
 - Source Code Escrow
 - Irrevocable or Perpetual License
+- **Data Export Rights**
+- **Uptime/Availability SLA**
+- **Sublicensing Rights**
+- **Unilateral Amendment Rights**
 
-## Review Process
+---
 
-### Step 1: Identify Document Type & User Position
-- What kind of agreement? (NDA, MSA, SaaS, Employment, M&A, etc.)
-- Which party is the user?
-- What's the power dynamic?
+## Market Standard Benchmarks
 
-### Step 2: Extract Key Metadata
-- Parties and roles
-- Key dates (effective, expiration, renewal)
-- Term and notice periods
-- Governing law
-- Key financial terms
+| Provision | Standard | Yellow Flag | Red Flag |
+|-----------|----------|-------------|----------|
+| **Liability cap** | 12 months' fees | 6-11 months | <6 months |
+| **Non-compete duration** | 1-2 years | 3-4 years | 5+ years |
+| **Non-compete geography** | Where business operates | State-wide | Nationwide |
+| **Auto-renewal notice** | 90+ days | 60-89 days | <60 days |
+| **Termination notice** | Mutual, 60-90 days | One-sided, 30 days | Immediate |
+| **Indemnification** | Mutual, capped | Asymmetric | Uncapped |
+| **Rep survival (M&A)** | 12-18 months general | 24-30 months | 36+ months |
+| **Escrow (M&A)** | 10-15% for 12-18 mo | 15-20% for 18-24 mo | >20% or >24 mo |
+| **Confidentiality (NDA)** | 3 years general | 2 years | 5+ years |
+| **Fee tail (broker)** | 12-18 months | 24 months | Perpetual |
+| **SLA uptime** | 99.9% with credits | 99.5% | No SLA |
+| **Data export** | 90 days, standard format | 30 days | None |
+| **Price increase cap** | CPI or 5% annual | 10% annual | Uncapped |
+| **Cure period** | 30 days | 15 days | None |
 
-### Step 3: Analyze Risk
+---
 
-For each potential issue:
-1. Quote the exact clause
-2. Explain why it's problematic for user's position
-3. Compare to market standard
-4. Provide specific redline language
-5. Suggest fallback position
+## Negotiability Guide
 
-**Only flag if:**
-- Genuinely unusual for this contract type, OR
-- Creates material business risk, OR
-- Significantly one-sided without justification
+| Rating | Meaning | Examples |
+|--------|---------|----------|
+| **High** | Usually accepted | Mutual termination, cure periods, data export |
+| **Medium** | Depends on leverage | Liability cap increase, price caps |
+| **Low** | Rarely changed | Network rules (payments), regulatory requirements |
+| **None** | Non-negotiable | Card network mandates, banking regulations |
 
-### Step 4: Check Internal Consistency
-- Cross-references valid?
-- All capitalized terms defined?
-- Survival clauses complete?
-- Exhibits match body?
+**Power dynamic factors:**
+- Large customer + small vendor = more leverage
+- Startup + enterprise vendor = less leverage
+- Competitive market = more leverage
+- Sole-source vendor = less leverage
+- Regulated terms = no leverage (legally required)
 
-### Step 5: Identify Missing Provisions
-- Standard protections absent?
-- Suggest specific language to add
-
-### Step 6: Prioritize Output
-- 🔴 **Critical**: Must fix before signing
-- 🟡 **Important**: Should negotiate
-- 🟢 **Minor**: Nice to have
-
-## Risk Severity Guidelines
-
-| Provision | Low | Medium | High |
-|-----------|-----|--------|------|
-| Liability cap | 12+ months | 6-11 months | <6 months |
-| Non-compete | 1-2 years | 3-4 years | 5+ years |
-| Auto-renewal notice | 90+ days | 60-89 days | <60 days |
-| Termination notice | Mutual, 90+ days | One-sided or <60 days | Immediate |
-| Indemnification | Mutual, capped | Asymmetric | Uncapped |
+---
 
 ## Jurisdiction Notes
 
 **Non-Competes:**
-- California, North Dakota, Oklahoma: Generally void
+- California, North Dakota, Oklahoma, Minnesota: Generally void
 - Other states: Reasonableness test applies
 
 **Choice of Law:**
-- Delaware: Corp-friendly
-- New York: Financial agreements
-- California: Employee-friendly
+- Delaware: Corp-friendly, predictable
+- New York: Financial agreements, sophisticated courts
+- California: Employee-friendly, tech industry
+- BVI/Cayman: Offshore, expensive to litigate, potential red flag
 
-## M&A Considerations
+**Arbitration Venues:**
+- AAA, JAMS: Standard US commercial
+- SIAC (Singapore), LCIA (London): International, expensive
+- Mandatory + class waiver: Limits remedies significantly
 
-For acquisition agreements, also check:
-- Earnout mechanics (measurement, discretion, audit rights)
-- Escrow/holdback (amount, duration, release)
-- Working capital adjustments
-- Rep & warranty survival (12-24 months typical)
-- Materiality scrapes, sandbagging
-- MAC definition
-- Non-compete scope (2-3 years typical)
+---
 
 ## Guardrails
 
@@ -269,11 +427,6 @@ For acquisition agreements, also check:
 - **Jurisdiction matters**: Note when enforceability varies
 - **Express uncertainty**: Say when interpretation is unclear
 - **No hallucination**: Only reference text actually in document
-- **Show what's acceptable**: Include "Reviewed & Acceptable" section
+- **Show what's acceptable**: Always include "Reviewed & Acceptable" section
+- **Document status matters**: Note if already executed (review is informational)
 
-## Zuva Integration (Optional)
-
-For automated clause extraction with 1,354 pre-trained fields:
-```bash
-python -m zdai --test connection
-```
