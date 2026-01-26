@@ -1,6 +1,6 @@
 ---
 name: contract-review
-description: Review contracts for risks, extract key terms, and suggest redlines
+description: Review legal contracts, NDAs, employment agreements, SaaS terms, and M&A documents. Identifies unfavorable terms, suggests redlines, and compares to market standards. Use for contract analysis, due diligence, or negotiation prep.
 version: 3.0.0
 ---
 
