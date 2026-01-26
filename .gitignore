@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Zuva config (contains API token)
+.zdai/
+
+# Test contracts (may contain sensitive data)
+contracts/
+*.pdf
+*.docx
+
+# Environment
+.env
+.env.local
