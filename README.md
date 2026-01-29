@@ -1,16 +1,24 @@
-# Contract Review Skill for Claude Code
+# Contract Review — Agent Skill for Legal Analysis
 
-> AI-powered contract analysis with CUAD risk detection, market benchmarks, and lawyer-ready redlines
+> AI-powered contract review with CUAD risk detection, market benchmarks, and lawyer-ready redlines
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Compatible-blueviolet)](https://agentskills.io)
 [![CUAD](https://img.shields.io/badge/CUAD-41%20Categories-green)](https://github.com/TheAtticusProject/cuad)
 [![Version](https://img.shields.io/badge/version-3.0.0-blue)]()
+
+**Works with:** Claude Code · OpenAI Codex · Cursor · GitHub Copilot · Gemini CLI · [26+ tools](https://agentskills.io)
 
 ## Quick Install
 
 ```bash
+# Claude Code
 git clone https://github.com/evolsb/claude-legal-skill ~/.claude/skills/contract-review
+
+# OpenAI Codex
+git clone https://github.com/evolsb/claude-legal-skill ~/.codex/skills/contract-review
+
+# Other Agent Skills-compatible tools — clone to your tool's skills directory
 ```
 
 ## Try It
@@ -142,11 +150,19 @@ Special handling for acquisition agreements:
 
 ---
 
-## Installation Options
+## Installation
 
-### Standard (Recommended)
+This skill follows the open [Agent Skills standard](https://agentskills.io) and works with any compatible tool.
+
 ```bash
+# Claude Code
 git clone https://github.com/evolsb/claude-legal-skill ~/.claude/skills/contract-review
+
+# OpenAI Codex
+git clone https://github.com/evolsb/claude-legal-skill ~/.codex/skills/contract-review
+
+# Cursor, Copilot, Gemini CLI, etc.
+# Clone to your tool's skills directory
 ```
 
 ### Development (Symlink)
