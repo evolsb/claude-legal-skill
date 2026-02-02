@@ -420,6 +420,78 @@ Check these danger signs FIRST before deep analysis:
 
 ---
 
+## Scenario Analysis
+
+Present practical analysis of how the contract operates under various circumstances. Include 5-7 scenarios minimum, covering pricing/volume and termination at a minimum.
+
+### Scenario Analysis Table Format
+
+For each scenario:
+
+| Element | Analysis |
+|---------|----------|
+| **Scenario** | Brief description of the hypothetical situation |
+| **Current Position** | What the contract currently says (or doesn't say) |
+| **Client's Risk** | Risk rating (LOW/MEDIUM/HIGH) + explanation of exposure |
+| **Outcome Under Current Terms** | What would practically happen |
+| **Recommendation** | Suggested contractual amendments or mitigations |
+
+### Mandatory Scenario Categories
+
+**Always include scenarios relating to:**
+- Pricing and volume (at least 2)
+- Termination (at least 2)
+
+**Select additional scenarios from:**
+- Performance and service failures
+- Assignment and change of control
+- Competitive situations
+- Insolvency
+
+### Example Scenarios
+
+#### Pricing/Volume: Market Price Fall
+
+| Element | Analysis |
+|---------|----------|
+| **Scenario** | Market prices fall 20% below contracted rates. Client seeks to renegotiate or exit. |
+| **Current Position** | No market reset or benchmarking right. Termination for convenience not available. |
+| **Client's Risk** | **HIGH** — Client locked into above-market pricing for remainder of term with no exit mechanism. |
+| **Outcome Under Current Terms** | Must continue to pay contracted rates regardless of market movement. Only exit would be to allege breach by counterparty (difficult and uncertain). |
+| **Recommendation** | Negotiate inclusion of: (1) annual benchmarking right with exit if counterparty declines to match market; (2) termination for convenience after year 1 with capped break fee. |
+
+#### Termination: Client Exit for Convenience
+
+| Element | Analysis |
+|---------|----------|
+| **Scenario** | Client wishes to exit early for convenience (better offer, change in business, dissatisfaction with service). |
+| **Current Position** | No termination for convenience right. Break fee calculation uncapped. |
+| **Client's Risk** | **HIGH** — Client is locked in for full term regardless of circumstances, or faces potentially unlimited exit costs. |
+| **Outcome Under Current Terms** | Client must continue performance or pay uncapped damages for breach. |
+| **Recommendation** | Negotiate TFC right with 90 days' notice after initial 12 months. Accept reasonable capped termination fee if required (e.g., 3-6 months of fees). |
+
+#### Termination: Counterparty Insolvency
+
+| Element | Analysis |
+|---------|----------|
+| **Scenario** | Counterparty enters administration or liquidation. |
+| **Current Position** | Ipso facto clause may be unenforceable. No step-in rights. No escrow or guarantee. |
+| **Client's Risk** | **MEDIUM** — Service disruption, potential data loss, stranded payments. |
+| **Outcome Under Current Terms** | Client may be unable to terminate immediately. Administrator may elect to continue or disclaim. Client may lose access to data or services. |
+| **Recommendation** | Add step-in rights, data escrow provisions, or parent company guarantee where counterparty is a subsidiary. |
+
+#### Assignment: Assignment to Competitor
+
+| Element | Analysis |
+|---------|----------|
+| **Scenario** | Counterparty assigns contract to a competitor of client without notice or consent. |
+| **Current Position** | Assignment permitted without consent to affiliates or in connection with merger/acquisition. |
+| **Client's Risk** | **MEDIUM** — Client's confidential information and business relationship transferred to competitor. |
+| **Outcome Under Current Terms** | Assignment proceeds without client input. Client may be bound to continue performance with competitor. |
+| **Recommendation** | Require consent (not to be unreasonably withheld) for any assignment. Add carve-out prohibiting assignment to direct competitors. Include termination right if assignment to unsuitable party. |
+
+---
+
 ## Guardrails
 
 - **Not legal advice**: Recommend attorney review for material terms
@@ -429,4 +501,26 @@ Check these danger signs FIRST before deep analysis:
 - **No hallucination**: Only reference text actually in document
 - **Show what's acceptable**: Always include "Reviewed & Acceptable" section
 - **Document status matters**: Note if already executed (review is informational)
+
+---
+
+## Disclaimer
+
+**IMPORTANT LIMITATIONS:**
+
+This skill provides AI-assisted contract analysis for informational purposes only. It is **not legal advice** and does not create an attorney-client relationship.
+
+**You should understand that:**
+
+1. **AI limitations**: Based on ContractEval benchmarks, Claude achieves F1 ~0.62 on clause extraction. This tool is best suited for first-pass review and issue flagging, not as a replacement for attorney review on material deals.
+
+2. **Jurisdiction varies**: Analysis defaults to US law. Contract enforceability, particularly for non-competes, limitation of liability, and dispute resolution provisions, varies significantly by jurisdiction. Local counsel should be consulted for jurisdiction-specific advice.
+
+3. **Context matters**: The AI cannot know your full business context, risk tolerance, strategic objectives, or relationship dynamics with the counterparty. Recommendations are general in nature.
+
+4. **Document completeness**: Analysis is limited to the text provided. Missing exhibits, schedules, or related agreements may materially affect the analysis.
+
+5. **Not exhaustive**: This review focuses on common commercial risks. It may not identify all issues relevant to your specific situation, industry regulations, or business needs.
+
+**Independent, qualified legal counsel in the relevant jurisdiction should always be engaged to review contracts and transactions.**
 
