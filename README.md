@@ -60,6 +60,20 @@ Analyzes legal contracts and outputs:
 - **Missing provisions** with suggested language to add
 - **Internal consistency checks** (broken cross-references, undefined terms)
 
+### Generate Deliverables with legal-redline-tools
+
+This skill outputs structured JSON redlines. To produce the tracked-changes Word docs and redline PDFs that lawyers actually send, pair with [**legal-redline-tools**](https://github.com/evolsb/legal-redline-tools):
+
+```bash
+pip install git+https://github.com/evolsb/legal-redline-tools.git
+
+# After the skill generates redlines.json:
+legal-redline apply contract.docx redlined.docx \
+    --from-json redlines.json \
+    --pdf redline.pdf \
+    --memo-pdf internal-memo.pdf
+```
+
 ---
 
 ## Features
@@ -173,6 +187,12 @@ Based on ContractEval benchmarks, Claude achieves F1 ~0.62 on clause extraction.
 - [CUAD Dataset](https://github.com/TheAtticusProject/cuad) — Atticus Project (NeurIPS 2021)
 - [LegalBench](https://hazyresearch.stanford.edu/legalbench/) — Stanford HAI
 - [ContractEval](https://arxiv.org/abs/2303.07389) — Contract understanding benchmarks
+
+## Next Steps
+
+- **Need deliverables?** Use [legal-redline-tools](https://github.com/evolsb/legal-redline-tools) to generate tracked-changes `.docx`, redline PDFs, and negotiation memos from the skill's output
+- **Want examples?** See [examples/](examples/) for full sample reviews
+- **Found an issue?** [Open a GitHub issue](https://github.com/evolsb/claude-legal-skill/issues)
 
 ## Contact
 
