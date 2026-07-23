@@ -201,3 +201,6 @@ Questions or feedback? [Open an issue](https://github.com/evolsb/claude-legal-sk
 ## License
 
 MIT — see [LICENSE](LICENSE)
+
+---
+Built by [Chris Sheehan](https://ctsheehan.com).
