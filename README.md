@@ -19,6 +19,9 @@ git clone https://github.com/evolsb/claude-legal-skill ~/.claude/skills/contract
 # OpenAI Codex
 git clone https://github.com/evolsb/claude-legal-skill ~/.codex/skills/contract-review
 
+# Autohand Code
+git clone https://github.com/evolsb/claude-legal-skill ~/.autohand/skills/contract-review
+
 # Other Agent Skills-compatible tools — clone to your tool's skills directory
 ```
 
@@ -139,6 +142,9 @@ git clone https://github.com/evolsb/claude-legal-skill ~/.claude/skills/contract
 
 # OpenAI Codex
 git clone https://github.com/evolsb/claude-legal-skill ~/.codex/skills/contract-review
+
+# Autohand Code
+git clone https://github.com/evolsb/claude-legal-skill ~/.autohand/skills/contract-review
 
 # Cursor, Copilot, Gemini CLI, etc.
 # Clone to your tool's skills directory
