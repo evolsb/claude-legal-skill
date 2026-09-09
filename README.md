@@ -176,7 +176,7 @@ See [examples/](examples/) for full sample outputs.
 - **US law focus** — analysis defaults to US; provisions vary by jurisdiction
 - **Context window** — very long contracts may need section-by-section review
 
-**The contract has to be text before review can start.** This skill analyzes a contract once it is text. A scan PDF, a clause page someone sent as a link, or a negotiation recording never reaches the analyzer. Run those through [cue-omni-reader](https://github.com/sensedeal/cue-skills/tree/main/cue-omni-reader) first to get Markdown — web pages including in-page video/attachments, plus authorized local documents, audio, or video; several local files at once — then review the resulting text, and hand its `redlines.json` to legal-redline-tools against the original `contract.docx`. Install: `npx skills add sensedeal/cue-skills --skill cue-omni-reader` (MIT; may bill).
+**The contract has to be text before review can start.** This skill analyzes a contract once it is text. A scan PDF, a clause page someone sent as a link, or a negotiation recording never reaches the analyzer. Run those through [cue-omni-reader](https://github.com/sensedeal/cue-skills/tree/main/cue-omni-reader) first to get Markdown — web pages including in-page video/attachments, plus authorized local documents, audio, or video; several local files at once — then review the resulting text. Install: `npx skills add sensedeal/cue-skills --skill cue-omni-reader` (MIT; may bill).
 
 ## Accuracy
 
